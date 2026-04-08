@@ -1,0 +1,3 @@
+- name: Debug
+  run: |
+    echo "User: ${{ secrets.DOCKER_USERNAME }}"
