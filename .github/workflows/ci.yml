@@ -44,10 +44,14 @@ jobs:
         run: |
           docker pull ${{ secrets.DOCKER_USERNAME }}/age-prediction-api:latest
 
-      - name: Stop existing container
+      - name: Stop and remove old container
+        shell: powershell
         run: |
-          docker stop age-prediction-api || true
-          docker rm age-prediction-api || true
+          docker stop age-prediction-api
+          if ($LASTEXITCODE -ne 0) { Write-Host "Container not running, continuing" }
+      
+          docker rm age-prediction-api
+          if ($LASTEXITCODE -ne 0) { Write-Host "Container not found, continuing" }
           
       - name: Start new container
         run: |
