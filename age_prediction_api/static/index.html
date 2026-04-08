@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Prediction API</title>
+    <meta name="description" content="Predict age from a face image using AI.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/styles.css">
+</head>
+<body>
+    <div class="background">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <main class="container">
+        <div class="card glass-effect">
+            <header class="header">
+                <h1 class="title">Face Aging <span>AI</span></h1>
+                <p class="subtitle">Upload a face image to predict the subject's age.</p>
+            </header>
+
+            <form id="upload-form" class="upload-section">
+                <div id="drop-zone" class="drop-zone">
+                    <div class="drop-content">
+                        <svg class="upload-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                        <p class="drop-hint"><span>Click to upload</span> or drag and drop</p>
+                        <p class="drop-sub-hint">PNG, JPG or JPEG</p>
+                    </div>
+                    <input type="file" id="file-input" name="file" accept="image/png, image/jpeg, image/jpg" hidden>
+                    <div id="preview-container" class="preview-container hidden">
+                        <img id="image-preview" src="#" alt="Preview">
+                        <button type="button" id="remove-btn" class="remove-btn" aria-label="Remove image">✕</button>
+                    </div>
+                </div>
+
+                <div class="action-section">
+                    <button type="submit" id="submit-btn" class="submit-btn" disabled>
+                        <span class="btn-text">Predict Age</span>
+                        <div class="loader hidden"></div>
+                    </button>
+                </div>
+            </form>
+
+            <div id="result-container" class="result-container">
+                <div class="result-content hidden" id="result-content">
+                    <p class="result-label">Predicted Age Range</p>
+                    <h2 class="result-value" id="result-age">--</h2>
+                </div>
+                <div class="error-message hidden" id="error-message"></div>
+            </div>
+        </div>
+    </main>
+    <script src="static/script.js"></script>
+</body>
+</html>

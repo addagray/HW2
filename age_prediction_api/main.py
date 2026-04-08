@@ -1,9 +1,12 @@
 from fastapi import FastAPI, File, UploadFile, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from ml_models import AgePredictor
 import uvicorn
 
 app = FastAPI(title="Age Prediction API", description="A lightweight API for predicting age from face images.")
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # Initialize the predictor globally so models are loaded only once on startup
 predictor = None
@@ -16,7 +19,7 @@ def load_models():
 
 @app.get("/")
 def root():
-    return {"message": "Welcome to the Age Prediction API. Use /docs to test endpoints."}
+    return FileResponse("static/index.html")
 
 @app.post("/predict")
 async def predict_age_endpoint(file: UploadFile = File(...)):
@@ -25,10 +28,10 @@ async def predict_age_endpoint(file: UploadFile = File(...)):
 
     content = await file.read()
     try:
-        predicted_age = predictor.predict_age(content)
-        if predicted_age is None:
+        predictions = predictor.predict_attributes(content)
+        if predictions is None:
             return JSONResponse(status_code=400, content={"error": "No face detected in the image."})
-        return {"age_bracket": predicted_age}
+        return predictions
     except ValueError as ve:
         raise HTTPException(status_code=400, detail=str(ve))
     except Exception as e:
