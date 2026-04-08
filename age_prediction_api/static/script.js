@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const resultContent = document.getElementById('result-content');
     const errorMessage = document.getElementById('error-message');
-    const resultAge = document.getElementById('result-age');
+    const resultPrediction = document.getElementById('result-prediction');
     
     const btnText = document.querySelector('.btn-text');
     const loader = document.querySelector('.loader');
@@ -123,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(data.detail || data.error || 'Server error occurred');
             }
 
-            showResult(data.age_bracket);
+            showResult(data.age_bracket, data.gender);
         } catch (error) {
             showError(error.message);
         } finally {
@@ -142,8 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function showResult(age) {
-        resultAge.textContent = age;
+    function showResult(age, gender) {
+        resultPrediction.textContent = `${gender}, ${age}`;
         resultContent.classList.remove('hidden');
         errorMessage.classList.add('hidden');
     }
