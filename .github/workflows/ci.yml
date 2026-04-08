@@ -47,11 +47,10 @@ jobs:
       - name: Stop and remove old container
         shell: powershell
         run: |
-          docker stop age-prediction-api
-          if ($LASTEXITCODE -ne 0) { Write-Host "Container not running, continuing" }
-      
-          docker rm age-prediction-api
-          if ($LASTEXITCODE -ne 0) { Write-Host "Container not found, continuing" }
+          if (docker ps -a --format "{{.Names}}" | Select-String "age-prediction-api") {
+            docker stop age-prediction-api
+            docker rm age-prediction-api
+          }
           
       - name: Start new container
         run: |
